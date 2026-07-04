@@ -50,8 +50,15 @@
 
 <script>
 import { ref } from 'vue';
+import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
 import CurlCommand from '~/lib/CurlCommand.js';
 import FFMpegCommand from '~/components/FFmpegCommand.vue';
+
+const randomName = () => uniqueNamesGenerator({
+  dictionaries: [adjectives, animals],
+  separator: '_',
+  length: 2
+});
 
 export default {
   components: {
@@ -61,7 +68,7 @@ export default {
     const command = ref('');
     const url = ref('');
     const headers = ref([]);
-    const filename = ref('movie.mp4');
+    const filename = ref(`${randomName()}.mp4`);
     const convert720 = ref(true);
     const verboseLogging = ref(false);
     const videoToolbox = ref(true);
