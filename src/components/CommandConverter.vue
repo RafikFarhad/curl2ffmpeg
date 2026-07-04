@@ -11,13 +11,39 @@
           <div class="mb-3">
             <input v-model="filename" id="filename" type="text" class="form-control" />
           </div>
+          <div class="mb-3">
+            <div class="form-check">
+              <input v-model="convert720" id="convert720" type="checkbox" class="form-check-input" />
+              <label for="convert720" class="form-check-label">Convert to 720p when source height is greater than 720</label>
+            </div>
+            <div class="form-check">
+              <input v-model="verboseLogging" id="verboseLogging" type="checkbox" class="form-check-input" />
+              <label for="verboseLogging" class="form-check-label">Verbose logging</label>
+            </div>
+            <div class="form-check">
+              <input v-model="videoToolbox" id="videoToolbox" type="checkbox" class="form-check-input" />
+              <label for="videoToolbox" class="form-check-label">Use VideoToolbox hardware encoder (macOS)</label>
+            </div>
+            <div class="form-check">
+              <input v-model="robustDownload" id="robustDownload" type="checkbox" class="form-check-input" />
+              <label for="robustDownload" class="form-check-label">Robust download (auto-reconnect)</label>
+            </div>
+            <div class="form-check">
+              <input v-model="notifyOnFinish" id="notifyOnFinish" type="checkbox" class="form-check-input" />
+              <label for="notifyOnFinish" class="form-check-label">Notify on finish (bell + macOS notification)</label>
+            </div>
+            <div class="form-check">
+              <input v-model="verify" id="verify" type="checkbox" class="form-check-input" />
+              <label for="verify" class="form-check-label">Verify re-encode matches source (SSIM)</label>
+            </div>
+          </div>
           <button type="submit" class="btn btn-primary">Convert</button>
         </form>
       </div>
     </div>
 
     <div v-if="url">
-      <FFMpegCommand :url="url" :headers="headers" :filename="filename" />
+      <FFMpegCommand :url="url" :headers="headers" :filename="filename" :convert720="convert720" :verbose="verboseLogging" :video-toolbox="videoToolbox" :robust-download="robustDownload" :notify="notifyOnFinish" :verify="verify" />
     </div>
   </div>
 </template>
@@ -36,6 +62,12 @@ export default {
     const url = ref('');
     const headers = ref([]);
     const filename = ref('movie.mp4');
+    const convert720 = ref(true);
+    const verboseLogging = ref(false);
+    const videoToolbox = ref(true);
+    const robustDownload = ref(true);
+    const notifyOnFinish = ref(false);
+    const verify = ref(false);
 
     const submit = () => {
       url.value = '';
@@ -53,6 +85,12 @@ export default {
       url,
       headers,
       filename,
+      convert720,
+      verboseLogging,
+      videoToolbox,
+      robustDownload,
+      notifyOnFinish,
+      verify,
       submit
     };
   }
